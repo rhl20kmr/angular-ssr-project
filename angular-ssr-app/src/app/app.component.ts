@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -9,4 +11,17 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'angular-ssr-app';
+  message = 'Loading...';
+
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    if (isPlatformBrowser(this.platformId)) {
+      // Only run this on the browser
+      this.http.get<{ message: string }>('/api/message').subscribe((data) => {
+        this.message = data.message;
+      });
+    }
+  }
 }

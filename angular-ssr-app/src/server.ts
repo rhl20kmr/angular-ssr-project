@@ -29,6 +29,9 @@ const angularApp = new AngularNodeAppEngine();
 /**
  * Serve static files from /browser
  */
+app.get('/api/message', (req, res) => {
+  res.json({ message: 'Hello from SSR API!' });
+});
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',
