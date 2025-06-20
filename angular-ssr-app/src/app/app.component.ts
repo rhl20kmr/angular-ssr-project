@@ -2,10 +2,11 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { LoginComponent } from './login-component/login.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, LoginComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

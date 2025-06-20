@@ -14,6 +14,7 @@ const browserDistFolder = resolve(serverDistFolder, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 import { registerUserApi } from './app/server-api/users-api/user.api.js';
+import { registerAuthApi } from './app/server-api/auth.api.js';
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -30,6 +31,10 @@ import { registerUserApi } from './app/server-api/users-api/user.api.js';
 /**
  * Serve static files from /browser
  */
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+registerAuthApi(app);
 registerUserApi(app);
 app.get('/api/message', (req, res) => {
   res.json({ message: 'Hello from SSR API!' });
