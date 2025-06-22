@@ -29,6 +29,25 @@ export function registerAuthApi(app: Express): void {
     return res.json({ token });
   });
 
+    app.post('/api/register', (req: Request, res: Response) => {
+        const { name, email, username, password } = req.body;
+
+        if (mockUsers.find(u => u.username === username)) {
+            return res.status(400).json({ error: 'Username already exists' });
+        }
+
+        const newUser = {
+            id: mockUsers.length + 1,
+            name,
+            email,
+            username,
+            password
+        };
+
+        mockUsers.push(newUser);
+        return res.status(201).json({ message: 'User registered successfully' });
+    });
+
   /**
    * GET /api/profile
    * Returns the current user's profile (requires JWT)
