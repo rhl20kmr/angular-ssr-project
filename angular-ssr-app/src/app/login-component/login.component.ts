@@ -21,7 +21,9 @@ export class LoginComponent {
   onLogin() {
     this.error = null;
     this.auth.login(this.username, this.password).subscribe({
-      next: () => this.router.navigate(['/profile']),
+      next: () => {this.router.navigate(['/profile'])
+      //localStorage.setItem("openaiKey", "sk-your-generated-key-here");
+      },
       error: err => {
         this.error = err.error?.error || 'Login failed';
       }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -23,5 +24,10 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!this.getToken();
+  }
+
+  getSuggestion(errorMessage: string): Observable<string> {
+    return this.http.post<{ suggestion: string }>('/api/ai-suggest', { errorMessage })
+      .pipe(map(res => res.suggestion));
   }
 }

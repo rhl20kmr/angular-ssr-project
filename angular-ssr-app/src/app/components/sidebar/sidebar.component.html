@@ -1,0 +1,63 @@
+<!-- @if (isOpen) { -->
+  <!-- <div
+    class="group flex flex-col bg-gray-800 text-white h-full transition-all duration-300 fixed left-0 top-0 h-screen w-64 z-40"
+    [ngClass]="{
+      'w-64': !isCollapsed,
+      'w-20': isCollapsed
+    }"
+    (mouseenter)="isCollapsed && (isCollapsed = false)"
+    (mouseleave)="!isCollapsed && (isCollapsed = true)"
+  > -->
+  <div
+    class="group flex flex-col bg-gray-800 text-white h-full transition-all duration-300 fixed left-0 top-0 h-screen w-64 z-40"
+  >
+    <!-- Collapse Toggle -->
+    <button (click)="toggleCollapse()" class="p-4 hover:bg-gray-700 transition">
+      @if (!isCollapsed) {
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+        </svg>
+      } @else {
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16" />
+        </svg>
+      }
+    </button>
+
+    <!-- Dynamic Menu -->
+    <ul class="flex-1 space-y-2 px-2">
+      @for (item of menuItems; track item.route) {
+        <li>
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="bg-gray-700"
+            (click)="onMenuClick(item)"
+            class="flex items-center space-x-2 p-2 rounded hover:bg-gray-700 transition-all"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              @if (item.icon === 'home') {
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6"
+                />
+              } @else if (item.icon === 'check') {
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+              }
+            </svg>
+
+            @if (!isCollapsed) {
+              <span>{{ item.name }}</span>
+            }
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+<!-- } -->

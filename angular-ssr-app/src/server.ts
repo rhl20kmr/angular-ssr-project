@@ -58,6 +58,28 @@ app.use('/**', (req, res, next) => {
     )
     .catch(next);
 });
+const SECRET_KEY = 'your-secret-key'; 
+app.post("/ai-suggest", async (req, res) => {
+  try {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${SECRET_KEY}`, // safe here
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: req.body.messages,
+      }),
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    const errorMessage = typeof err === 'object' && err !== null && 'message' in err ? (err as { message: string }).message : String(err);
+    res.status(500).json({ error: errorMessage });
+  }
+});
 
 /**
  * Start the server if this module is the main entry point.

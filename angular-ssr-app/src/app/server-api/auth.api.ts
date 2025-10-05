@@ -61,6 +61,43 @@ export function registerAuthApi(app: Express): void {
 
     return res.json({ id: user.id, name: user.name, email: user.email });
   });
+
+  //open AI api config
+  const openaiKey = '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';
+  app.post("/api/ai-suggest", async (req, res) => {
+    const { errorMessage } = req.body;
+    console.log('Received errorMessage for AI suggestion:', errorMessage);
+    if (!errorMessage) {
+      return res.status(400).json({ error: "Missing errorMessage" });
+    }
+
+    try {
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${openaiKey}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "meta-llama/llama-3-8b-instruct",
+          messages: [{ role: "user", content: errorMessage }]
+        })
+      });
+      const data = await response.json();
+      console.log('OpenAI response data:', data);
+      if (data.error) {
+        console.error('OpenAI API error:', data.error);
+       return res.status(500).json({ error: "OpenAI API error" });
+      }
+      return res.json({
+        suggestion: data.choices?.[0]?.message?.content || "No suggestion generated."
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Failed to contact OpenAI" });
+    }
+  });
+
 }
 
 /**
@@ -80,3 +117,6 @@ function verifyToken(req: AuthenticatedRequest, res: Response, next: NextFunctio
     return next();
   });
 }
+
+
+
