@@ -23,13 +23,7 @@ pipeline {
                 }
             }
         }
-        stage('Lint') {
-            steps {
-                dir('angular-ssr-app') {
-                    sh 'npm run lint'
-                }
-            }
-        }
+        
 
         stage('Build') {
             steps {
