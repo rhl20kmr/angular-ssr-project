@@ -16,21 +16,26 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+      stage('Install Dependencies') {
             steps {
-                sh 'npm ci' // Faster and cleaner than npm install
+                dir('angular-ssr-app') {
+                    sh 'npm ci'
+                }
             }
         }
-
         stage('Lint') {
             steps {
-                sh 'npm run lint'
+                dir('angular-ssr-app') {
+                    sh 'npm run lint'
+                }
             }
         }
 
         stage('Build') {
             steps {
-                sh 'npm run build -- --configuration production'
+                dir('angular-ssr-app') {
+                    sh 'npm run build -- --configuration production'
+                }
             }
         }
 
