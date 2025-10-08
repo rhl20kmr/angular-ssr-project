@@ -38,7 +38,7 @@ pipeline {
                 branch 'jenkins-branch'
             }
             steps {
-                echo 'Deploying Angular app... demo'
+                echo 'Deploying Angular app...'
                 // Add your deployment script here (e.g., Firebase, S3, FTP)
             }
         }
