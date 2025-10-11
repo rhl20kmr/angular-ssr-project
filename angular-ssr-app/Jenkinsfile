@@ -47,7 +47,7 @@ pipeline {
 
     post {
         success {
-            echo '✅ Angular pipeline completed successfully.!'
+            echo '✅ Angular pipeline completed successfully...!'
         }
         failure {
             echo '❌ Pipeline failed. Check logs for details.'
